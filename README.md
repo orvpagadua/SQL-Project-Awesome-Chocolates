@@ -26,19 +26,18 @@ LIMIT 10
 ```
 
 ### CALCULATED QUERIES
-
+Column Calculation
 ```
 SELECT SaleDate, Amount, Boxes, Amount/Boxes 
 FROM sales
 LIMIT 10
 ```
-
+Renaming Column Calculation
 ```
 SELECT SaleDate, Amount, Boxes, Amount/Boxes AS 'Amount per box'
 FROM sales
 LIMIT 10
 ```
-
 Imposing Conditions on the query
 ```
 SELECT *
@@ -46,6 +45,67 @@ FROM sales
 WHERE Amount >10000
 LIMIT 10
 ```
+Ordering query results
+```
+SELECT *
+FROM sales
+WHERE Amount >10000
+ORDER BY Amount
+LIMIT 10
+```
+Ordering query results with condition
+```
+SELECT *
+FROM sales
+WHERE GeoID = 'G1'
+ORDER BY PID, Amount DESC;
+LIMIT 10
+```
+
+### WHERE CLAUSE USES
+Filtering Query with conditions
+```
+SELECT *
+FROM sales
+WHERE Amount > 10000 AND SaleDate >= '2022-01-01'
+ORDER BY Amount DESC;
+LIMIT 10
+```
+Year of Sale Date
+```
+SELECT SaleDate, Amount 
+FROM sales
+WHERE Amount > 10000 AND YEAR (SaleDate) = '2022'
+ORDER BY Amount DESC 
+LIMIT 10
+```
+Number of Boxes is 0-50
+```
+SELECT *
+FROM sales
+WHERE Boxes > 0 AND Boxes <= 50
+LIMIT 10
+```
+
+```
+SELECT *
+FROM sales
+WHERE Boxes BETWEEN 0 AND 50
+LIMIT 10
+```
+
+Shipments on Fridays
+```
+SELECT SaleDate, Amount, Boxes, WEEKDAY(SaleDate) AS 'Day of Week'  
+FROM sales
+WHERE WEEKDAY(SaleDate);
+LIMIT 10
+```
+
+Using Multiple Tables
+
+
+
 
 
 
