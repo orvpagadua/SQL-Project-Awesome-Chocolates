@@ -4,6 +4,49 @@
 
 ## SQL Queries
 
+List all the Tables in the Database
+```
+SHOW TABLES;
+```
+Understand the values in the Table
+```
+DESC geo;
+```
+Show data from sales table
+```
+SELECT *
+FROM sales
+LIMIT 10
+```
+Show only selected columns
+```
+SELECT SaleDate, Amount, Customers 
+FROM sales
+LIMIT 10
+```
+
+### CALCULATED QUERIES
+
+```
+SELECT SaleDate, Amount, Boxes, Amount/Boxes 
+FROM sales
+LIMIT 10
+```
+
+```
+SELECT SaleDate, Amount, Boxes, Amount/Boxes AS 'Amount per box'
+FROM sales
+LIMIT 10
+```
+
+Imposing Conditions on the query
+```
+SELECT *
+FROM sales
+WHERE Amount >10000
+LIMIT 10
+```
+
 
 
 ## INTERMEDIATE PROBLEMS 
