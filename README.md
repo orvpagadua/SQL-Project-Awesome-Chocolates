@@ -102,10 +102,41 @@ WHERE WEEKDAY(SaleDate);
 LIMIT 10
 ```
 
-Using Multiple Tables
+### Using Multiple Tables
 
+Clauses
+```
+SELECT *
+FROM people 
+WHERE team IN ('Delish', 'Jucies');
+LIMIT 10
+```
 
-
+### Pattern Matching
+Salesperson names that start with the letter `B`
+```
+SELECT *
+FROM people 
+WHERE Salesperson LIKE 'B%'
+LIMIT 10
+```
+Salesperson names that `CONTAINS` with the letter `B`
+```
+SELECT *
+FROM people 
+WHERE Salesperson LIKE '%B%'
+LIMIT 10
+```
+Creating Columns with CASE Condition
+```
+SELECT SaleDate, Amount,
+	CASE WHEN Amount < 1000 THEN 'Under 1k'
+		WHEN Amount < 5000 THEN 'Under 5k'
+		WHEN Amount < 10000 THEN 'Under 10k'
+		ELSE '10k or more'
+		END AS 'Amount Category'
+FROM sales;
+```
 
 
 
