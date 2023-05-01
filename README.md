@@ -138,8 +138,16 @@ SELECT SaleDate, Amount,
 FROM sales;
 ```
 ## Intermediate Queries
+Sales Data with the Persons Name
+```
+SELECT s.SaleDate, s.Amount, p.Salesperson, s.SPID, p.SPID 
+FROM sales s
+JOIN people p ON p.SPID = s.SPID; 
+```
 
-
+Left Join on Products Table
+```
+```
 
 
 
