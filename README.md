@@ -16,13 +16,13 @@ Show data from sales table
 ```
 SELECT *
 FROM sales
-LIMIT 10
+LIMIT 10;
 ```
 Show only selected columns
 ```
 SELECT SaleDate, Amount, Customers 
 FROM sales
-LIMIT 10
+LIMIT 10;
 ```
 
 #### CALCULATED QUERIES
@@ -36,14 +36,14 @@ Renaming Column Calculation
 ```
 SELECT SaleDate, Amount, Boxes, Amount/Boxes AS 'Amount per box'
 FROM sales
-LIMIT 10
+LIMIT 10;
 ```
 Imposing Conditions on the query
 ```
 SELECT *
 FROM sales
 WHERE Amount >10000
-LIMIT 10
+LIMIT 10;
 ```
 Ordering query results
 ```
@@ -51,15 +51,15 @@ SELECT *
 FROM sales
 WHERE Amount >10000
 ORDER BY Amount
-LIMIT 10
+LIMIT 10;
 ```
 Ordering query results with condition
 ```
 SELECT *
 FROM sales
 WHERE GeoID = 'G1'
-ORDER BY PID, Amount DESC;
-LIMIT 10
+ORDER BY PID, Amount DESC
+LIMIT 10;
 ```
 
 #### WHERE CLAUSE USES
@@ -68,8 +68,8 @@ Filtering Query with conditions
 SELECT *
 FROM sales
 WHERE Amount > 10000 AND SaleDate >= '2022-01-01'
-ORDER BY Amount DESC;
-LIMIT 10
+ORDER BY Amount DESC
+LIMIT 10;
 ```
 Year of Sale Date
 ```
@@ -77,7 +77,7 @@ SELECT SaleDate, Amount
 FROM sales
 WHERE Amount > 10000 AND YEAR (SaleDate) = '2022'
 ORDER BY Amount DESC 
-LIMIT 10
+LIMIT 10;
 ```
 Number of Boxes is 0-50
 ```
@@ -91,15 +91,15 @@ LIMIT 10
 SELECT *
 FROM sales
 WHERE Boxes BETWEEN 0 AND 50
-LIMIT 10
+LIMIT 10;
 ```
 
 Shipments on Fridays
 ```
 SELECT SaleDate, Amount, Boxes, WEEKDAY(SaleDate) AS 'Day of Week'  
 FROM sales
-WHERE WEEKDAY(SaleDate);
-LIMIT 10
+WHERE WEEKDAY(SaleDate)
+LIMIT 10;
 ```
 
 #### Using Multiple Tables
@@ -118,14 +118,14 @@ Salesperson names that start with the letter `B`
 SELECT *
 FROM people 
 WHERE Salesperson LIKE 'B%'
-LIMIT 10
+LIMIT 10;
 ```
 Salesperson names that `CONTAINS` with the letter `B`
 ```
 SELECT *
 FROM people 
 WHERE Salesperson LIKE '%B%'
-LIMIT 10
+LIMIT 10;
 ```
 Creating Columns with CASE Condition
 ```
@@ -147,13 +147,103 @@ JOIN people p ON p.SPID = s.SPID;
 
 Left Join on Products Table
 ```
+SELECT s.SaleDate, s.Amount, pr.Product 
+FROM sales s  
+LEFT JOIN products pr ON pr.PID  = s.PID;
 ```
 
+Joining Multiple Tables
+```
+SELECT s.SaleDate, s.Amount, p.Salesperson, pr.Product, p.Team  
+FROM sales s
+JOIN people p ON p.SPID = s.SPID
+LEFT JOIN products pr ON pr.PID  = s.PID;
+```
 
+##### Conditions with Joins
+For the Amount less than 500
+```
+SELECT s.SaleDate, s.Amount, p.Salesperson, pr.Product, p.Team  
+FROM sales s
+JOIN people p ON p.SPID = s.SPID
+LEFT JOIN products pr ON pr.PID  = s.PID
+WHERE s.Amount < 500;
+```
 
+For Amount less than 500 for specific team
+```
+SELECT s.SaleDate, s.Amount, p.Salesperson, pr.Product, p.Team  
+FROM sales s
+JOIN people p ON p.SPID = s.SPID
+LEFT JOIN products pr ON pr.PID  = s.PID
+WHERE s.Amount < 500
+AND p.Team = 'Delish';
+```
 
+For people who doesnt belong to any teams. `NULL`
+```
+SELECT s.SaleDate, s.Amount, p.Salesperson, pr.Product, p.Team  
+FROM sales s
+JOIN people p ON p.SPID = s.SPID
+LEFT JOIN products pr ON pr.PID  = s.PID
+WHERE s.Amount < 500
+AND p.Team = '';
+```
 
+For people who doesnt belong to any teams. `NULL` with Location
+```
+SELECT s.SaleDate, s.Amount, p.Salesperson, pr.Product, p.Team, g.Geo  
+FROM sales s
+JOIN people p ON p.SPID = s.SPID
+LEFT JOIN products pr ON pr.PID  = s.PID
+JOIN geo g ON g.GeoID = s.GeoID 
+WHERE s.Amount < 500
+AND p.Team = ''
+AND g.Geo IN ('New Zealand','India');
+```
 
+#### GROUPBYS AND AGGREGATIONS
+
+```
+SELECT GeoID, SUM(Amount) 
+FROM sales s
+GROUP BY GeoID; 
+```
+
+```
+SELECT g.Geo, SUM(Amount), AVG(Amount), SUM(Boxes)
+FROM sales s
+JOIN geo g ON g.GeoID = s.GeoID 
+GROUP BY g.Geo; 
+```
+
+```
+SELECT pr.Category, p.Team, SUM(Boxes), SUM(Amount)  
+FROM sales s 
+JOIN people p ON p.SPID = s.SPID 
+JOIN products pr ON pr.PID =s.PID
+GROUP BY pr.Category, p.Team;
+```
+
+```
+SELECT pr.Category, p.Team, SUM(Boxes), SUM(Amount)  
+FROM sales s 
+JOIN people p ON p.SPID = s.SPID 
+JOIN products pr ON pr.PID =s.PID
+WHERE p.Team <>''
+GROUP BY pr.Category, p.Team
+ORDER BY pr.Category, p.Team;
+```
+
+TOP 10 PRODUCTS
+```
+SELECT pr.Product, SUM(s.Amount) AS 'Total Amount'
+FROM sales s
+JOIN products pr ON pr.PID = s.PID
+GROUP BY pr.Product
+ORDER BY 'Total Amount' DESC
+LIMIT 10; 
+```
 ## INTERMEDIATE PROBLEMS 
 
 1. Print details of shipments (sales) where amounts are > 2,000 and boxes are <100? 
