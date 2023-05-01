@@ -2,7 +2,7 @@
 
  The Database (awesome chocolates.sql) contains 4 tables: `geo`, `people`, `products` and `sales`
 
-## SQL Queries
+## Basic SQL Queries
 
 List all the Tables in the Database
 ```
@@ -25,7 +25,7 @@ FROM sales
 LIMIT 10
 ```
 
-### CALCULATED QUERIES
+#### CALCULATED QUERIES
 Column Calculation
 ```
 SELECT SaleDate, Amount, Boxes, Amount/Boxes 
@@ -62,7 +62,7 @@ ORDER BY PID, Amount DESC;
 LIMIT 10
 ```
 
-### WHERE CLAUSE USES
+#### WHERE CLAUSE USES
 Filtering Query with conditions
 ```
 SELECT *
@@ -102,7 +102,7 @@ WHERE WEEKDAY(SaleDate);
 LIMIT 10
 ```
 
-### Using Multiple Tables
+#### Using Multiple Tables
 
 Clauses
 ```
@@ -137,11 +137,16 @@ SELECT SaleDate, Amount,
 		END AS 'Amount Category'
 FROM sales;
 ```
+## Intermediate Queries
+
+
+
+
+
 
 
 
 ## INTERMEDIATE PROBLEMS 
-👉 You need to combine various concepts covered in the video to solve these
 
 1. Print details of shipments (sales) where amounts are > 2,000 and boxes are <100? 
 2. How many shipments (sales) each of the sales persons had in the month of January 2022?
@@ -150,7 +155,6 @@ FROM sales;
 5. Which shipments had under 100 customers & under 100 boxes? Did any of them occur on Wednesday?
 
 ## HARD PROBLEMS 
-👉 These require concepts not covered in the video
 
 1. What are the names of salespersons who had at least one shipment (sale) in the first 7 days of January 2022?
 2. Which salespersons did not make any shipments in the first 7 days of January 2022?
