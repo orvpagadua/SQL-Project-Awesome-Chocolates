@@ -244,6 +244,8 @@ GROUP BY pr.Product
 ORDER BY 'Total Amount' DESC
 LIMIT 10; 
 ```
+
+# To be Updated
 ## INTERMEDIATE PROBLEMS 
 
 1. Print details of shipments (sales) where amounts are > 2,000 and boxes are <100? 
